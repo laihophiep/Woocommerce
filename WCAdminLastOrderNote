@@ -1,0 +1,21 @@
+Add note to Admin mail with latest customer order ID
+
+add_action( 'woocommerce_email_order_details', 'las_order_email_order_details', 10, 4 );
+function las_order_email_order_details( $order, $sent_to_admin, $plain_text, $email ) {
+	if($sent_to_admin){	
+		$order_statuses = array('wc-on-hold', 'wc-processing', 'wc-completed');
+		$customer_user_id = get_current_user_id(); 
+		$customer_orders = wc_get_orders( array(
+		    'meta_key' => '_customer_user',
+		    'meta_value' => $customer_user_id,
+		    'post_status' => $order_statuses,
+		    'numberposts' => -1
+		) );
+		$order_id = array();
+		foreach($customer_orders as $order ){
+		    $order_id[] = method_exists( $order, 'get_id' ) ? $order->get_id() : $order->id;
+		}
+
+		echo '<p>This user has last ordered order ID: #'.$order_id[1].'.';
+	}
+}
