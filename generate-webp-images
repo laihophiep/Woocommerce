@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# ---------------------------------------------------------------------------
+# Generate WebP Images - Uses cwebp command line tool for Linux
+# This will generate / re-generate all webp images for all JPG and PNG files
+# Being command line based it is incredibly fast
+# If you don't want to re-generate existing files set generateall=0
+# If you want to re-generate everything set generateall=1
+# USE this script at your own risk and Only if you know what you are doing
+# Written by Mitchell Krog - mitchellkrog@gmail.com
+# https://github.com/mitchellkrogza
+# ---------------------------------------------------------------------------
+
+
+# -------- #
+# SETTINGS #
+# -------- #
+Generate webp images from png and jpg files recursively in any web folder (uses webp command line tool)
+
+generateall=0 # <--- Set to 1 to re-generate all webp files / 0 will only generate missing webp files
+mydomain="mydomain.com" # <--- Enter your domain / folder name here
+directory="/srv/http/${mydomain}/wp-content/uploads/" # <--- Some servers use /var/www change if necessary - Change folder structure as needed
+quality=80
+
+# ------------ #
+# END SETTINGS #
+# ------------ #
+
+
+if [[ "${generateall}" == 1 ]]
+then
+    for file in $(find ${directory} -type f \( -name "*.jpg" -o -name "*.png" \))
+    do
+        echo "converting ${file}"
+        cwebp -q ${quality} -lossless ${file} -o "${file%.*}.webp"
+    done
+else
+    for file in $(find ${directory} -type f \( -name "*.jpg" -o -name "*.png" \))
+    do
+        if test -f "${file%.*}.webp"
+        then
+            echo "file exists - skipping"
+        else
+            echo "convert ${file}"
+            cwebp -q ${quality} -lossless ${file} -o "${file%.*}.webp"
+        fi
+    done
+fi
+
+
+exit 0
