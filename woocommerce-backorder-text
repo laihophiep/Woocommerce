@@ -1,0 +1,8 @@
+// Change backorder message text
+function change_backorder_message( $text, $product ){
+    if ( $product->managing_stock() && $product->is_on_backorder( 1 ) ) {
+        $text = __( 'Place your text here', 'woocommerce' );
+    }
+    return $text;
+}
+add_filter( 'woocommerce_get_availability_text', 'change_backorder_message', 10, 2 );
