@@ -1,0 +1,9 @@
+// Add Brand for Products.
+// Only use if you sell one brand of item ie. Your own brand
+add_filter( 'rank_math/snippet/rich_snippet_product_entity', function( $entity ) {
+
+    $entity['brand'] = 'My Brand' ;
+
+    return $entity;
+
+});
