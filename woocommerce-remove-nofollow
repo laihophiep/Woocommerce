@@ -1,0 +1,11 @@
+/**
+ * Remove "nofollow" from add to cart / Select options buttons
+ * What possessed Woocommerce to inplement this we shall never know ?
+ */
+
+add_filter( 'woocommerce_loop_add_to_cart_args', 'add_to_cart_args_remove_nofollow' );
+
+function add_to_cart_args_remove_nofollow( $args ) {
+	unset($args['attributes']['rel']);
+	return $args;
+}
