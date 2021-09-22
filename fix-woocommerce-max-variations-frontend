@@ -1,0 +1,11 @@
+/**
+Fix WooCommerce Limit on Variations (Front End)
+
+ * Fix for issue where too many variations causes the front end to not pre-load
+ * all variations and rely on AJAX.
+ */
+function custom_wc_ajax_variation_threshold( $qty, $product )
+{
+    return 400;
+}
+add_filter( 'woocommerce_ajax_variation_threshold', 'custom_wc_ajax_variation_threshold', 10, 2 );
