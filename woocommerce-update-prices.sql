@@ -1,0 +1,13 @@
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_regular_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_sale_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_regular_price_tmp' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_sale_price_tmp' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_price_tmp' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_min_variation_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_max_variation_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_min_variation_regular_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_max_variation_regular_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_min_variation_sale_price' AND meta_value != ''
+UPDATE wp_postmeta SET meta_value = meta_value*0.8 WHERE meta_key = '_max_variation_sale_price' AND meta_value != ''
+DELETE FROM wp_options WHERE (option_name LIKE '_transient_wc_var_prices_%' OR option_name LIKE '_transient_timeout_wc_var_prices_%')
