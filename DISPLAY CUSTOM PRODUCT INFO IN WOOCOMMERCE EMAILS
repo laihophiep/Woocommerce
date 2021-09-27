@@ -1,0 +1,29 @@
+Dealing with the default Woocommerce emails can be difficult, with errors thrown that prevent checkout and other issues. Fortunately Automattic have eased the way with a few action hooks designed to allow devs to insert custom info like shipping times or custom colors into automatically generated sale emails. I’ll be using ACF here, but you can also use custom generated meta data, simply change the field variable to fit your needs.
+
+Once you have saved your custom info to your product and understand how to correctly access it, you’ll need to go to your functions.php file and add this action hook:
+
+add_action( 'woocommerce_order_item_meta_end', 'your_order_item_meta_start', 20, 4 );
+function your_order_item_meta_start( $item_id, $item, $order, $plain_text ) {
+  // Code goes here
+}
+This code will allow you to hook your custom info into the cell of the product you are using. At this point, you can replace the comment with any text, but chances are you’re going to want to put some custom info in there. For this example, I’m using an ACF field called ‘ship_time’ that contains shipping info for this specific product. Here is the code that will allow you to pull up that information.
+
+// Gets the line item
+$id = $item->get_product_id();
+// Gets the acf field info
+$shipmeta = get_field('ship_time',$id);
+// Check to see if field exists in product, then output
+if($shipmeta){
+  echo "<p>Ship Time: $shipmeta"</p>;
+}
+Now we’ll pull it all together to display the info in emails sent to customer and admin.
+
+add_action( 'woocommerce_order_item_meta_end', 'your_order_item_meta_start', 20, 4 );
+function your_order_item_meta_start( $item_id, $item, $order, $plain_text ) {
+  $id = $item->get_product_id();
+  $shipmeta = get_field('ship_time',$id);
+  if($shipmeta){
+    echo "<p>Ship Time: $shipmeta</p>";
+  }
+}
+This has been tested and works for Woocommerce 3+.
