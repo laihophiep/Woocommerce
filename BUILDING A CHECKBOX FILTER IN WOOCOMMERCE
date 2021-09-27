@@ -1,0 +1,55 @@
+// Add this to functions.php
+function sc_custom_tag_filter(){ 
+  $return .='
+   <form id="cheap">
+    <div class="range-check">
+     <input class="ajax-checkbox" type="checkbox" value="cheap" id="cheap-check" name="product_tag" onChange="this.form.submit()" />
+     <label>Cheap</label>
+     <div class="range-desc">
+      Products for people who like saving money.
+     </div>
+   </div>
+  </form>
+  <form id="expensive">
+   <div class="range-check">
+     <input class="ajax-checkbox" type="checkbox" value="expensive" id="expensive-check" name="product_tag" onChange="this.form.submit()" />
+     <label>Expensive</label>
+     <div class="range-desc">
+      Products for people spending money they don\'t have.
+     </div>
+   </div>
+  </form>
+  <div class="small"><a href="#" class="deselect" onChange="this.form.submit()">Clear Filter</a>
+ ';
+ return $return;
+}
+add_shortcode( 'sc_custom_filter', 'sc_custom_tag_filter' );
+//Create a new JS file
+jQuery(document).ready(function() {
+    if (window.location.href.indexOf("cheap") > -1) {
+          jQuery('#cheap input[type="checkbox"]').prop('checked', true);
+    }
+});
+jQuery(document).ready(function() {
+    if (window.location.href.indexOf("expensive") > -1) {
+          jQuery('#expensive input[type="checkbox"]').prop('checked', true);
+    }
+});
+jQuery("a.deselect").each(function(){
+    this.search = "";
+});
+/* Insert in your functions.php file to enqueue your JS file the code will differ slightly if using a child theme. Change path and filename */
+wp_enqueue_script( 'misc', get_theme_file_uri( '/pathto/yourfile.js' ), array('jquery'), '1.0' , true );
+/* Add to style.css and change to your taste */
+input.ajax-checkbox, .range-check label{
+  display:inline;
+}
+.range-check label{
+  font-weight:700 !important;
+  font-size:16px;
+  position:relative;
+  top:2px;
+}
+form{
+  margin-bottom:15px;
+}
