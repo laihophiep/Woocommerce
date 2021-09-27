@@ -1,0 +1,116 @@
+Native browser checkboxes are U-G-L-Y. They don’t resize easily and those rounded corners and set color backgrounds can really detract from the effort you put into getting your site looking great. I’ll show you two ways to change those checkboxes.
+
+Using an Image
+This option is not ideal as it uses a static image that might delay the initial load slightly more than a flexible svg image, however- it is easier to implement and looks better than the default.
+
+The first step is to create a check .png that you can use. Here’s white one, but feel free to create your own- it should be square and not larger than 50px. I’m going to use the checkboxes from our Checkbox Product Filtering Tutorial as an example.
+
+<form id="cheap">
+ <div class="range-check">
+  <div class="checkbox-input">
+   <input class="filter-checkbox" type="checkbox" value="cheap" id="cheap-check" name="product_tag" onChange="this.form.submit()" />
+  </div>
+  <label>Cheap</label>
+  <div class="range-desc">
+   Products for people who like saving money.
+  </div>
+ </div>
+</form>
+<form id="expensive">
+ <div class="range-check">
+  <div class="checkbox-input">
+   <input class="filter-checkbox" type="checkbox" value="expensive" id="expensive-check" name="product_tag" onChange="this.form.submit()" />
+  </div>
+  <label>Expensive</label>
+  <div class="range-desc">
+   Products for people spending money they don\'t have.
+  </div>
+ </div>
+</form>
+The only change I’ve made is to wrap the input in a <div> in order to style it.
+
+/* Customize Checkboxes place in style.css */
+.checkbox-input input[type="checkbox"]{
+    -webkit-appearance: none;
+    width:20px;
+    height:20px;
+    border:1px solid #f9f8f7;
+}
+.checkbox-input input[type="checkbox"]:checked{
+    background-color:#FF684F;
+    border:1px solid #FF684F !important;
+    background-image:url(/pathtofile/check.png);
+    background-size:80%;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+.checkbox-input{
+    display:inline-block;
+    padding:5px 0 10px 0
+}
+.checkbox-input input[type="checkbox"]{
+    border:1px solid #999;
+    width:20px;
+    height:20px;
+    margin-right:2px;
+    display:inline-block;
+}
+.range-check label{
+    display:inline-block;
+    top:-2px;
+}
+/* Remove the ugly default outline */
+.checkbox-input input[type="checkbox"]:focus{
+    outline:none !important
+}
+There are a few things going on here. First, I’ve removed any styling your browser is forcing on field elements. Next, I’ve set the dimensions and set the size and border color of the new checkboxes. Finally, I’ve added background color and inserted a check image into the checkbox.
+
+
+Using Font Awesome
+If you’re already using Font Awesome on your site, then a slightly better alternative is to use the free check in the FA suite of icons. It’s a similar process with a slight change. You can use the same form code from above, we’ll tweak the CSS slightly to add an :after pseudo class in order to use an .svg generated image instead of the .png image file.
+
+/* Customize Checkboxes */
+.checkbox-input input[type="checkbox"]{
+    -webkit-appearance: none;
+    width:20px;
+    height:20px;
+    border:1px solid #f9f8f7;
+}
+.checkbox-input input[type="checkbox"]:checked{
+    background-color:#FF684F;
+    border:1px solid #FF684F !important;
+    background-size:80%;
+    background-position:center center;
+    background-repeat:no-repeat;
+    position:relative;
+}
+.checkbox-input input[type="checkbox"]:checked:after{
+    font-family:'Font Awesome 5 Free'; /* Change this for your version */
+    content:'\f00c';
+    color:white;
+    position:absolute;
+    top:-3px;
+    left:1px;
+}
+.checkbox-input{
+    display:inline-block;
+    padding:5px 0 10px 0
+}
+.checkbox-input input[type="checkbox"]{
+    border:1px solid #999;
+    width:20px;
+    height:20px;
+    margin-right:2px;
+    display:inline-block;
+}
+.range-check label{
+    display:inline-block;
+    top:-2px;
+}
+/* Remove the ugly default outline */
+.checkbox-input input[type="checkbox"]:focus{
+    outline:none !important
+}
+
+Also works!
+It’s up to you to decide which works better for your project but getting rid of those ugly default inputs will add some pep to your website.
