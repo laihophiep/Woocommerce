@@ -1,0 +1,20 @@
+function update_post_kk(){
+    $a = get_posts(array(
+        'fields'          => 'ids',
+        'posts_per_page'  => -1
+    ));
+    foreach ($a as $id){
+        update_post_meta( $id, '_kksr_ratings', '500' );
+        update_post_meta( $id, '_kksr_casts', '100' );
+        update_post_meta( $id, '_kksr_ratings_default', '500' );
+        update_post_meta( $id, '_kksr_count_default', '100' );
+    }
+}
+add_action('init','update_post_kk');
+Mình không khuyến khích các bạn copy, mình muốn các bạn tự gõ từng dòng code để có thể nhớ được code cũng như tìm hiểu được chức năng của từng hàm.
+
+Mình sử dụng hàm update post meta của wordpress để nó cập nhật các post meta theo ý mình. Mình hook vào hàm init để nó được tải ngay khi load lại trạng.
+
+Các bạn lưu ý là sau khi save và load lại trang rồi thì các bạn đợi 10 – 15p (Đối với số lượng bài post lớn) sau đó các bạn xóa code cho nhẹ nhé.
+
+Bình thường mình không dùng cách hook trực tiếp vào init mà sẽ hook nó vào 1 cái hàm save nào đó, vd là save post để khi viết bài mới thì nó sẽ auto có đánh giá luôn, các bạn tìm hiểu thêm về hàm này nhé. Ngoài ra có thể sử dụng cronjob để update sau 1 thời gian cụ thể. Như vậy làm cho web tải nhẹ hơn.
