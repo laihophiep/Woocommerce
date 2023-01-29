@@ -1,4 +1,4 @@
-// add to function.php
+<?php // add to function.php
 //call for woocommerce custom admin image code    
 require get_template_directory() . '/inc/woo-meta-category.php';
 
@@ -15,7 +15,7 @@ function my_admin_scripts() {
 
 add_action('admin_print_scripts', 'my_admin_scripts');
 
-/*--------------------------------------------------------------------------------------
+/*--------------------------------------------------------------------------------------*/
 
 //Add Media uploader Javascript in js/uploader.js
 jQuery(document).ready( function($){
