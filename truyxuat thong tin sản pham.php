@@ -1,4 +1,49 @@
 <?php
+<?php 
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; // trang dữ hiện tại cần lấy dữ liệu
+$posts_per_page = 12; // chia mỗi trang có bao nhiêu kết quả
+$args_filter = array(
+    'post_type' => array('product'), // post_type trong WooCommerce là product
+    'post_status' => array('publish'), // Chỉ lấy dữ liệu đã xuất bản, {pending, draft, auto-draft, future, private, inherit, trash, any}
+    'meta_key' => 'total_sales',
+    'orderby' => 'meta_value_num',
+    'posts_per_page' => $posts_per_page,
+    'paged' => $paged
+);
+$the_query = new WP_query($args_filter);
+if($the_query->have_posts()):
+?>
+<section id="query-results">
+    <?php
+    while ($the_query->have_posts()) : $the_query->the_post();
+            //Truy xuất thông tin tại đây
+            $product_id = get_the_ID();
+            $product = wc_get_product($product_id);
+            echo $product->get_title();
+            echo $product->get_price();
+    endwhile;
+    wp_reset_postdata();
+    ?>
+</section>
+<?php 
+endif;
+?>
+// neu chi co id product
+<?php
+// Lấy sản phẩm thông qua ID
+$product = wc_get_product( $product_id );
+  
+// Bây giờ bạn có thể truy xuất thông tin như mục 1
+$product->get_type();
+$product->get_name();
+// neu chi co post
+<?php
+// Lấy sản phẩm thông qua $post
+$product = wc_get_product( $post );
+  
+// Bây giờ bạn có thể truy xuất thông tin như mục 1
+$product->get_type();
+$product->get_name();
 
 // Lấy Id của Sản phẩm
 $product->get_id();
