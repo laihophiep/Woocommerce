@@ -1,0 +1,41 @@
+add_filter('get_avatar', 'wpex_acf_profile_avatar', 10, 5);
+
+function wpex_acf_profile_avatar($avatar, $id_or_email, $size, $default, $alt) {
+    // Xác định người dùng dựa trên ID hoặc email
+    $user = '';
+    if (is_numeric($id_or_email)) {
+        $id = (int) $id_or_email;
+        $user = get_user_by('id', $id);
+    } elseif (is_object($id_or_email)) {
+        if (!empty($id_or_email->user_id)) {
+            $id = (int) $id_or_email->user_id;
+            $user = get_user_by('id', $id);
+        }
+    } else {
+        $user = get_user_by('email', $id_or_email);
+    }
+
+    // Nếu không tìm thấy người dùng, trả về avatar mặc định
+    if (!$user) {
+        return $avatar;
+    }
+
+    $user_id = $user->ID;
+    $image_id = get_user_meta($user_id, 'user_avatar', true);
+
+    // Nếu không có ID hình ảnh, trả về avatar mặc định
+    if (!$image_id) {
+        return $avatar;
+    }
+
+    // Lấy URL của hình ảnh đại diện
+    $image_url = wp_get_attachment_image_src($image_id, 'thumbnail');
+    if (!$image_url) {
+        return $avatar;
+    }
+
+    $avatar_url = $image_url[0];
+    $avatar = '<img alt="' . esc_attr($alt) . '" src="' . esc_url($avatar_url) . '" class="avatar avatar-' . esc_attr($size) . '" height="' . esc_attr($size) . '" width="' . esc_attr($size) . '"/>';
+
+    return $avatar;
+}
