@@ -1,0 +1,33 @@
+// Hiển thị thời gian giao hàng dự kiến
+add_action('woocommerce_after_add_to_cart_button', 'woocommerce_products_loop', 20);
+function woocommerce_products_loop() {
+    global $product;
+
+    // Thiết lập múi giờ
+    date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+    // Kiểm tra xem ngày hiện tại có nằm trong tuần không
+    $is_days = in_array(date('w'), array(0, 1, 2, 3, 4, 5, 6)) ? true : false; // Từ Chủ nhật đến Thứ bảy
+
+    $end_time = mktime('12', '00', '00', date('m'), date('d'), date('Y')); // 12h00
+    $now_time = time();
+
+    // Tính toán ngày giao hàng dự kiến
+    $after_tomorow = date('l', strtotime('+2 days'));
+
+    // Điều kiện hiển thị
+    if ($is_days && $now_time < $end_time) {
+        $displayed_day_1 = date("d/m/Y", strtotime("today + 7 days"));
+        $displayed_day_2 = date("d/m/Y", strtotime("today + 12 days"));
+    } elseif ($is_days && $now_time >= $end_time) {
+        $displayed_day_1 = date("d/m/Y", strtotime("today + 7 days"));
+        $displayed_day_2 = date("d/m/Y", strtotime("today + 15 days"));
+    }
+
+    // Nội dung hiển thị trên trang sản phẩm đơn lẻ
+    $html = "<br><div class='woocommerce-message' style='clear:both'>
+                Dự kiến hàng về: {$displayed_day_1} - {$displayed_day_2}
+            </div>";
+
+    echo $html;
+}
