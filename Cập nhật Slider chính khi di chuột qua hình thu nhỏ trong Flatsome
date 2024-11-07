@@ -1,0 +1,29 @@
+<?php
+function hover_slider() { ?>
+    <script>
+        jQuery(function($) {
+            var slidermain = $('.woocommerce-product-gallery__wrapper').flickity({
+                cellAlign: 'center',
+                wrapAround: true,
+                autoPlay: false,
+                prevNextButtons: true,
+                adaptiveHeight: true,
+                imagesLoaded: true,
+                lazyLoad: 1,
+                dragThreshold: 15,
+                pageDots: false,
+                rightToLeft: false
+            });
+            var slidernav = $('.product-thumbnails').flickity({
+                asNavFor: '.woocommerce-product-gallery__wrapper',
+                contain: true,
+                pageDots: false
+            });
+            slidernav.on('mouseover', '.col', function(event) {
+                var index = $(event.currentTarget).index();
+                slidermain.flickity('select', index);
+            });
+        });
+    </script>
+<?php }
+add_action('wp_footer', 'hover_slider');
